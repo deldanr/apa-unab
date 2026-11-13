@@ -1,0 +1,135 @@
+{
+  "fuente": "Times New Roman",
+  "portada": {
+    "titulo": "Estrategia de Transformación Digital para NEXORA Servicios Empresariales",
+    "autores": [
+      "Nombre Apellido"
+    ],
+    "afiliacion": "Universidad Andrés Bello",
+    "programa": "Tech MBA",
+    "curso": "Estrategia para la Transformación Digital",
+    "profesor": "Nombre del Profesor",
+    "fecha": "8 de noviembre de 2026"
+  },
+  "resumen": "Este trabajo analiza el caso NEXORA y propone una hoja de ruta de transformación digital basada en la evidencia disponible.",
+  "palabras_clave": [
+    "transformación digital",
+    "estrategia",
+    "inteligencia artificial"
+  ],
+  "fuentes": [
+    {
+      "id": "robbins2003",
+      "tipo": "revista",
+      "autores": [
+        "Robbins, M. S.",
+        "Turner, C. W.",
+        "Alexander, J. F."
+      ],
+      "fecha": "2003",
+      "titulo": "Alliance and dropout in family therapy for adolescents with behavior problems",
+      "revista": "Journal of Family Psychology",
+      "volumen": "17",
+      "numero": "4",
+      "paginas": "534–544",
+      "doi": "10.1037/0893-3200.17.4.534"
+    },
+    {
+      "id": "eco2001",
+      "tipo": "libro",
+      "autores": [
+        "Eco, U."
+      ],
+      "fecha": "2001",
+      "titulo": "Cómo se hace una tesis",
+      "editorial": "Gedisa"
+    },
+    {
+      "id": "ops2003",
+      "tipo": "libro",
+      "corporativo": "Organización Panamericana de la Salud",
+      "sigla": "OPS",
+      "fecha": "2003",
+      "titulo": "Guía de nutrición en servicios de salud",
+      "editorial": "Organización Panamericana de la Salud"
+    },
+    {
+      "id": "salas2020",
+      "tipo": "libro",
+      "autores": [
+        "Salas, P.",
+        "D'Agostino, M."
+      ],
+      "fecha": "2020",
+      "titulo": "Gestión del cambio digital",
+      "edicion": "2.ª",
+      "editorial": "Alfaomega"
+    },
+    {
+      "id": "salas2020b",
+      "tipo": "web",
+      "autores": [
+        "Salas, P.",
+        "D'Agostino, M."
+      ],
+      "fecha": "2020-03-15",
+      "titulo": "Cultura organizacional y datos",
+      "sitio": "Harvard Business Review",
+      "url": "https://hbr.org/ejemplo"
+    },
+    {
+      "id": "bello2001",
+      "tipo": "capitulo",
+      "autores": [
+        "Bello, J.",
+        "García-Jalón, I.",
+        "Candela, I."
+      ],
+      "fecha": "2001",
+      "titulo": "Restauración colectiva",
+      "editores": [
+        "Martínez, J.",
+        "Astiasaran, I.",
+        "Madrigal, H."
+      ],
+      "libro": "Alimentación y salud pública",
+      "paginas": "102–112",
+      "editorial": "McGraw-Hill"
+    },
+    {
+      "id": "morgado2013",
+      "tipo": "tesis",
+      "autores": [
+        "Morgado, M. G."
+      ],
+      "fecha": "2013",
+      "titulo": "La experiencia de ser enfermera pediátrica",
+      "tipo_tesis": "Tesis doctoral",
+      "institucion": "Universidad Andrés Bello",
+      "repositorio": "Repositorio UNAB",
+      "url": "http://repositorio.unab.cl/xmlui/handle/ria/3423"
+    },
+    {
+      "id": "ine",
+      "tipo": "web",
+      "corporativo": "Instituto Nacional de Estadísticas",
+      "sigla": "INE",
+      "fecha": "s.f.",
+      "titulo": "Resumen de energía y medioambiente",
+      "url": "https://www.ine.cl/estadisticas/economia/energia-y-medioambiente"
+    },
+    {
+      "id": "apsolon",
+      "tipo": "video",
+      "autores": [
+        "Apsolon, M."
+      ],
+      "usuario": "markapsolon",
+      "fecha": "2011-09-09",
+      "titulo": "Real ghost girl caught on video tape",
+      "plataforma": "YouTube",
+      "url": "http://www.youtube.com/watch?v=6nyGCbxD848"
+    }
+  ],
+  "logo": "fen"
+}

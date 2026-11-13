@@ -7,7 +7,7 @@ description: "Genera y valida documentos Word (.docx) en APA 7ª edición según
 
 Produce un `.docx` con estilos reales de Word y lo valida. Usa dos scripts de Python (`build_docx.py` y `validate_docx.py`, requieren `python-docx`; para revisar el resultado, LibreOffice y `pdftoppm`).
 
-**Dónde están los scripts:** en el documento del Project «Tech MBA UNAB» llamado `claude/apa-unab-skill-completa.md` (léelo con `project_read`; contiene el ejemplo mínimo y los dos scripts en bloques de código `python`, que se guardan tal cual como `build_docx.py` y `validate_docx.py`). Si ese documento no está disponible en la sesión, dilo al usuario, pídele que lo adjunte y, mientras tanto, aplica las reglas de este archivo a mano y no afirmes que validaste el formato.
+**Dónde están los scripts:** en la carpeta `scripts/` de esta misma skill (junto a este archivo): `build_docx.py` (genera el .docx), `validate_docx.py` (lo valida) y `fetch_logos.py` (descarga logos de institucional.unab.cl con Playwright). Los comandos de abajo usan `<SKILL>` para la carpeta de la skill (por ejemplo `~/.claude/skills/apa-unab`). Dependencias: `pip install -r <SKILL>/requirements.txt`; para el fallback de logos, además `playwright install chromium`. Si Python o `python-docx` no están disponibles, dilo al usuario, aplica las reglas de este archivo a mano y no afirmes que validaste el formato.
 
 ## Prioridad de reglas
 1. Instrucción explícita del profesor o rúbrica del curso.
@@ -18,13 +18,13 @@ Produce un `.docx` con estilos reales de Word y lo valida. Usa dos scripts de Py
 Decisiones tomadas con el usuario: APA 7; la lista se titula «Referencias» (no «Referencias Bibliográficas»); salida en .docx.
 
 ## Logo de portada
-El Tech MBA pertenece a la Facultad de Economía y Negocios (FEN): por defecto la portada lleva el logo «Universidad Andrés Bello | Facultad de Economía y Negocios» (PNG 812x385, fondo blanco). Está guardado en el Project como `claude/apa-unab-logo-fen-base64.md` (bloque base64): léelo con `project_read`, decodifica el bloque con `base64 -d` a `logo-fen.png` y pon `"logo": "logo-fen.png"` en `datos.json`. El ancho por defecto es 3 pulgadas (`"logo_ancho"` lo cambia). Con logo no se necesita `marca`. Solo si el usuario pide otro logo (UNAB vertical u horizontal, sin facultad) debe adjuntarlo. Si el logo no está disponible, generar la portada sin logo y avisarlo.
+El Tech MBA pertenece a la Facultad de Economía y Negocios (FEN): por defecto la portada lleva el logo «Universidad Andrés Bello | Facultad de Economía y Negocios». Los logos vienen incluidos en `assets/logos/` (`logo-fen.png`, `logo-unab-horizontal.png`, `logo-unab-vertical.png`, descargados de institucional.unab.cl). En `datos.json`, `"logo"` acepta `"fen"` (por defecto), `"unab-horizontal"`, `"unab-vertical"`, la ruta a otra imagen o `false` para no usar logo; el ancho por defecto es 3 pulgadas (`"logo_ancho"` lo cambia). Si falta un logo incluido, `build_docx.py` lo descarga solo con `python3 <SKILL>/scripts/fetch_logos.py` (Playwright, desde https://institucional.unab.cl); si tampoco así se obtiene, genera la portada sin logo y lo avisa: dilo al usuario. Con logo no se necesita `marca`.
 
 ## Flujo
 1. Reunir título, autor(es), curso, profesor, fecha, texto y fuentes con datos completos (autor, año, título, editorial, revista, URL o DOI).
 2. Escribir `cuerpo.md` y `datos.json` (formato abajo). No inventar datos de una fuente: si falta autor, año o editorial, preguntar o usar «s.f.» / entrada por título.
-3. Guardar los scripts y ejecutar `python3 build_docx.py cuerpo.md datos.json salida.docx`.
-4. Validar con `python3 validate_docx.py salida.docx`; corregir todo ERROR y revisar cada AVISO (algunos son heurísticos).
+3. Ejecutar `python3 <SKILL>/scripts/build_docx.py cuerpo.md datos.json salida.docx` (hay un ejemplo completo en `<SKILL>/examples/`).
+4. Validar con `python3 <SKILL>/scripts/validate_docx.py salida.docx`; corregir todo ERROR y revisar cada AVISO (algunos son heurísticos).
 5. Revisar visualmente: `soffice --headless --convert-to pdf salida.docx` y `pdftoppm -png -r 70 salida.pdf p`; mirar portada, una página de texto, la tabla y las referencias.
 6. Entregar el `.docx` e indicar lo que quedó pendiente.
 
@@ -60,7 +60,7 @@ El Tech MBA pertenece a la Facultad de Economía y Negocios (FEN): por defecto l
 - `build_docx.py` soporta: libro, capitulo, revista, periodico, web, informe, tesis, video, podcast, webinar, presentacion, social, ley. Para otro tipo, escribir la referencia a mano con estos principios y avisarlo.
 
 ## Formato de entrada
-`datos.json`: `portada` (titulo, autores[], afiliacion, programa, curso, profesor, fecha); opcionales `resumen`, `palabras_clave[]`, `fuente`, `logo` (ruta a PNG/JPG), `logo_ancho` (pulgadas, por defecto 3), `marca` (true agrega una línea en rojo institucional #A90429) y `fuentes[]`. Cada fuente lleva `id`, `tipo`, `fecha` («2003», «2019-11-16» o «s.f.»), `titulo` y, según el tipo: `autores` («Apellido, I.»), `corporativo` y `sigla`, `editorial`, `edicion` («2.ª»), `revista`, `volumen`, `numero`, `paginas`, `doi`, `url`, `editores` y `libro` (capítulos), `sitio`, `usuario`, `plataforma`, `tipo_tesis`, `institucion`, `repositorio`, `periodico`, `numero_informe`, `rol` («Ed.», «Coords.»), `idioma` («en» usa «&»), `recuperado`.
+`datos.json`: `portada` (titulo, autores[], afiliacion, programa, curso, profesor, fecha); opcionales `resumen`, `palabras_clave[]`, `fuente`, `logo` («fen» por defecto, «unab-horizontal», «unab-vertical», ruta a PNG/JPG o `false`), `logo_ancho` (pulgadas, por defecto 3), `marca` (true agrega una línea en rojo institucional #A90429) y `fuentes[]`. Cada fuente lleva `id`, `tipo`, `fecha` («2003», «2019-11-16» o «s.f.»), `titulo` y, según el tipo: `autores` («Apellido, I.»), `corporativo` y `sigla`, `editorial`, `edicion` («2.ª»), `revista`, `volumen`, `numero`, `paginas`, `doi`, `url`, `editores` y `libro` (capítulos), `sitio`, `usuario`, `plataforma`, `tipo_tesis`, `institucion`, `repositorio`, `periodico`, `numero_informe`, `rol` («Ed.», «Coords.»), `idioma` («en» usa «&»), `recuperado`.
 
 `cuerpo.md`:
 - `#` a `#####` son los niveles de título 1 a 5 (el 4 y el 5 se unen al párrafo siguiente). Párrafos separados por línea en blanco; `*cursiva*`, `**negrita**`, listas con `- `.
@@ -70,6 +70,6 @@ El Tech MBA pertenece a la Facultad de Economía y Negocios (FEN): por defecto l
 - Solo se incluyen en Referencias las fuentes citadas.
 
 ## Límites
-- La UNAB no entrega en estos documentos portada, tipografía ni márgenes propios: si el usuario consigue una plantilla o rúbrica del programa, esa manda. El logo de la portada es el de la Facultad de Economía y Negocios (ver «Logo de portada»); cualquier otro logo debe adjuntarlo el usuario (institucional.unab.cl, sección logos). Colores institucionales: azul #03102C (Pantone 296) y rojo #A90429 (Pantone 187); APA no usa color, por eso `marca` es opcional y viene desactivada.
+- La UNAB no entrega en estos documentos portada, tipografía ni márgenes propios: si el usuario consigue una plantilla o rúbrica del programa, esa manda. El logo de la portada es el de la Facultad de Economía y Negocios (ver «Logo de portada»); los logos pertenecen a la UNAB y se incluyen solo por conveniencia. Colores institucionales: azul #03102C (Pantone 296) y rojo #A90429 (Pantone 187); APA no usa color, por eso `marca` es opcional y viene desactivada.
 - Los avisos del validador sobre citas y referencias son heurísticos (autor corporativo, apellidos compuestos): revisar a mano.
 - LibreOffice sustituye Times New Roman por una fuente equivalente al exportar a PDF; en Word se ve con la fuente real.
